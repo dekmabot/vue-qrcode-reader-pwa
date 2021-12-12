@@ -1,6 +1,6 @@
 <template>
   <var-app-bar
-      title="Проверка билетов"
+      title="Регистрация"
       title-position="center"
       color="#574AE2"
   >
@@ -9,7 +9,7 @@
           round
           text
           text-color="#ffffff"
-          @click="goHome"
+          @click="goCheck"
       >
         <var-icon name="chevron-left" :size="24"/>
       </var-button>
@@ -33,15 +33,7 @@
 
   <div class="check">
 
-    <p>
-      Проскатируйте QR-код на билете
-    </p>
-
-    <qrcode-stream :camera="camera" @decode="onDecode" @init="onInit" style="height:80%">
-      <div v-show="dataIsValid" @click="unpause()" class="scan-confirmation">
-        <var-icon name="checkbox-marked-circle" color="#0CCA4A" :size="192"/>
-      </div>
-    </qrcode-stream>
+    <h1>Участник зарегистрирован!</h1>
 
     <div class="check-info" v-show="dataIsValid">
       <var-cell>
@@ -50,11 +42,9 @@
         {{ personDatetime }}
       </var-cell>
 
-      <var-button @click="register()" block size="large" color="#0CCA4A" type="success">Зарегистрировать</var-button>
-      <var-button @click="start" block size="large" color="#574AE2" type="primary">Другой билет</var-button>
-    </div>
-    <div class="check-info" v-show="!dataIsValid && camera === 'off'" style="text-align: center">
-      <var-button @click="start()" size="large" color="#574AE2" type="primary">Начать</var-button>
+      <div style="text-align: center">
+        <var-button @click="goCheck" block size="large" color="#574AE2" type="primary">Другой билет</var-button>
+      </div>
     </div>
 
   </div>
@@ -99,7 +89,6 @@
 
 <script>
 // @ is an alias to /src
-//import Camera from "@/components/Camera.vue";
 
 export default {
   name: 'Home',
@@ -112,7 +101,7 @@ export default {
       camera: 'off',
       result: null,
       showScanConfirmation: false,
-      dataIsValid: false,
+      dataIsValid: true,
       personDatetime: '25 мая 2021, сеанс в 14:30',
       personEvent: 'Белая Конфа 2021',
       personTicket: 'Офлайн-билет + видеозапись',
@@ -120,48 +109,12 @@ export default {
   },
 
   methods: {
-    goHome() {
-      this.$router.push({name: 'Home'})
+    goCheck() {
+      this.$router.push({name: 'Check'})
     },
     goSettings() {
       this.$router.push({name: 'Settings'})
     },
-    register() {
-      this.$router.push({name: 'Registered'})
-    },
-    start() {
-      this.unpause();
-    },
-    async onInit(promise) {
-      try {
-        await promise
-      } catch (e) {
-        console.error(e)
-      }
-    },
-
-    async onDecode(content) {
-      console.log(content);
-
-      this.dataIsValid = true;
-      this.pause()
-    },
-
-    unpause() {
-      this.camera = 'auto'
-      this.dataIsValid = false;
-    },
-
-    pause() {
-      this.camera = 'off'
-    },
-
-    timeout(ms) {
-      return new Promise(resolve => {
-        window.setTimeout(resolve, ms)
-      })
-    }
-
   }
 }
 </script>

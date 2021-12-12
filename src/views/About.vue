@@ -17,22 +17,22 @@
     </template>
   </var-app-bar>
 
-  <var-card
-      src="https://events.nethouse.ru/assets/images/index/eventeo_bg.png"
-      title="Всё для организаторов событий и продажи билетов"
-      description="Создайте лендинг мероприятия любого типа: от детского праздника до концерта, от вечеринки до мастер-класса. Запустите бесплатную регистрацию или продажу билетов. Это удобно и займёт не более 30 минут."
-  />
+  <div style="margin:40px; text-align: left;">
+    <h1>Регистрация участников</h1>
+    <p>
+      Создайте лендинг мероприятия любого типа: от детского праздника до концерта, от вечеринки до мастер-класса.
+      Запустите бесплатную регистрацию или продажу билетов. Это удобно и займёт не более 30 минут.
+    </p>
+    <p>
+      Создайте лендинг мероприятия любого типа: от детского праздника до концерта, от вечеринки до мастер-класса.
+      Запустите бесплатную регистрацию или продажу билетов. Это удобно и займёт не более 30 минут.
+    </p>
+    <p>
+      <var-button @click="goCheck" size="large" color="#574AE2" type="primary">Сканировать билет</var-button>
+    </p>
+  </div>
 </template>
 
-<style>
-.var-card__title {
-  text-align: left;
-}
-
-.var-card__description {
-  text-align: left;
-}
-</style>
 <script>
 // @ is an alias to /src
 
@@ -42,6 +42,9 @@ export default {
   methods: {
     goHome() {
       this.$router.push({name: 'Home'})
+    },
+    goCheck() {
+      this.$router.push({name: 'Check'})
     }
   }
 }
