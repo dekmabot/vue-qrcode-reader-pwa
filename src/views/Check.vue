@@ -37,18 +37,25 @@
       Проскатируйте QR-код на билете
     </p>
 
-    <qrcode-stream :camera="camera" @decode="onDecode" @init="onInit">
-      <div v-show="showScanConfirmation" @click="unpause()" class="scan-confirmation">
-        <var-icon name="checkbox-marked-circle" color="#0CCA4A" :size="192" />
+    <qrcode-stream :camera="camera" @decode="onDecode" @init="onInit" style="height:80%">
+      <div v-show="dataIsValid" @click="unpause()" class="scan-confirmation">
+        <var-icon name="checkbox-marked-circle" color="#0CCA4A" :size="192"/>
       </div>
     </qrcode-stream>
 
-    <div class="check-info">
-      <var-cell border desc="25 мая 2021, сеанс в 14:30">Мишин Олег Игоревич</var-cell>
-      <var-cell border desc="Офлайн-билет + видеозапись">Белая Конфа 2021</var-cell>
-    </div>
+    <div class="check-info" v-show="dataIsValid">
+      <var-cell>
+        <h3 style="margin:0;padding:0;">{{ personEvent }}</h3>
+        {{ personTicket }}<br>
+        {{ personDatetime }}
+      </var-cell>
 
-    <var-button @click="register()" block size="large" color="#0CCA4A" type="success">Зарегистрировать</var-button>
+      <var-button @click="register()" block size="large" color="#0CCA4A" type="success">Зарегистрировать</var-button>
+      <var-button @click="start()" block text outline size="large" type="success">Сканировать билет</var-button>
+    </div>
+    <div class="check-info" v-show="!dataIsValid && camera === 'off'">
+      <var-button @click="start()" block text outline size="large" type="success">Сканировать билет</var-button>
+    </div>
 
   </div>
 
@@ -61,9 +68,20 @@
   height: 100vw;
 }
 
+.text-success {
+  color: #0CCA4A;
+}
+
 .check-info {
   padding: 20px 0;
   text-align: left;
+}
+
+.check-info .var-button {
+  margin-top: 10px;
+}
+.qrcode-stream-wrapper{
+  background-color: #7594b4;
 }
 
 .scan-confirmation {
@@ -89,11 +107,15 @@ export default {
     //Camera,
   },
 
-  data () {
+  data() {
     return {
-      camera: 'auto',
+      camera: 'off',
       result: null,
-      showScanConfirmation: false
+      showScanConfirmation: false,
+      dataIsValid: false,
+      personDatetime: '25 мая 2021, сеанс в 14:30',
+      personEvent: 'Белая Конфа 2021',
+      personTicket: 'Офлайн-билет + видеозапись',
     }
   },
 
@@ -107,34 +129,34 @@ export default {
     register() {
       this.$router.push({name: 'Settings'})
     },
-
-    async onInit (promise) {
+    start() {
+      this.unpause();
+    },
+    async onInit(promise) {
       try {
         await promise
       } catch (e) {
         console.error(e)
-      } finally {
-        this.showScanConfirmation = this.camera === "off"
       }
     },
 
     async onDecode(content) {
       console.log(content);
 
+      this.dataIsValid = true;
       this.pause()
-      // await this.timeout(500)
-      // this.unpause()
     },
 
-    unpause () {
+    unpause() {
       this.camera = 'auto'
+      this.dataIsValid = false;
     },
 
-    pause () {
+    pause() {
       this.camera = 'off'
     },
 
-    timeout (ms) {
+    timeout(ms) {
       return new Promise(resolve => {
         window.setTimeout(resolve, ms)
       })
