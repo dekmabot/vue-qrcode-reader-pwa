@@ -109,7 +109,7 @@ export default {
 
   data() {
     return {
-      camera: 'off',
+      camera: 'back',
       result: null,
       showScanConfirmation: false,
       dataIsValid: false,
