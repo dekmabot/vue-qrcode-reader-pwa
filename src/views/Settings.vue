@@ -1,6 +1,6 @@
 <template>
   <var-app-bar
-      title="О приложении"
+      title="Настройки"
       title-position="center"
       color="#574AE2"
   >
@@ -17,11 +17,10 @@
     </template>
   </var-app-bar>
 
-  <var-card
-      src="https://events.nethouse.ru/assets/images/index/eventeo_bg.png"
-      title="Всё для организаторов событий и продажи билетов"
-      description="Создайте лендинг мероприятия любого типа: от детского праздника до концерта, от вечеринки до мастер-класса. Запустите бесплатную регистрацию или продажу билетов. Это удобно и займёт не более 30 минут."
-  />
+  <p>
+    [форма настроек]
+  </p>
+
 </template>
 
 <style>
