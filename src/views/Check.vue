@@ -109,7 +109,8 @@ export default {
 
   data() {
     return {
-      camera: 'back',
+      cameraDefault: 'front',
+      camera: 'front',
       result: null,
       showScanConfirmation: false,
       dataIsValid: false,
@@ -148,7 +149,7 @@ export default {
     },
 
     unpause() {
-      this.camera = 'back'
+      this.camera = this.cameraDefault;
       this.dataIsValid = false;
     },
 
