@@ -56,6 +56,12 @@
     <div class="check-info" v-show="!dataIsValid && camera === 'off'" style="text-align: center">
       <var-button @click="start()" size="large" color="#574AE2" type="primary">Начать</var-button>
     </div>
+    <div class="check-info" v-show="camera !== 'off'" style="text-align: center">
+      <var-button @click="switchCamera()" text size="large" type="primary" style="color:#574AE2">
+        <var-icon name="refresh" />
+        Другая камера
+      </var-button>
+    </div>
 
   </div>
 
@@ -109,8 +115,7 @@ export default {
 
   data() {
     return {
-      cameraDefault: 'front',
-      camera: 'front',
+      camera: 'auto',
       result: null,
       showScanConfirmation: false,
       dataIsValid: false,
@@ -149,7 +154,7 @@ export default {
     },
 
     unpause() {
-      this.camera = this.cameraDefault;
+      this.camera = 'auto';
       this.dataIsValid = false;
     },
 
@@ -161,8 +166,18 @@ export default {
       return new Promise(resolve => {
         window.setTimeout(resolve, ms)
       })
-    }
+    },
 
+    switchCamera () {
+      switch (this.camera) {
+        case 'front':
+          this.camera = 'rear'
+          break
+        case 'rear':
+          this.camera = 'front'
+          break
+      }
+    },
   }
 }
 </script>
