@@ -148,7 +148,7 @@ export default {
     },
 
     unpause() {
-      this.camera = 'auto'
+      this.camera = 'back'
       this.dataIsValid = false;
     },
 
