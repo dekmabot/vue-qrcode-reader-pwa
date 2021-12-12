@@ -24,7 +24,7 @@
             text-color="#ffffff"
             @click="goSettings"
         >
-          <var-icon name="cog" />
+          <var-icon name="cog"/>
         </var-button>
       </var-menu>
     </template>
@@ -37,7 +37,11 @@
       Проскатируйте QR-код на билете
     </p>
 
-    <camera/>
+    <qrcode-stream :camera="camera" @decode="onDecode" @init="onInit">
+      <div v-show="showScanConfirmation" @click="unpause()" class="scan-confirmation">
+        <var-icon name="checkbox-marked-circle" color="#0CCA4A" :size="192" />
+      </div>
+    </qrcode-stream>
 
     <div class="check-info">
       <var-cell border desc="25 мая 2021, сеанс в 14:30">Мишин Олег Игоревич</var-cell>
@@ -56,10 +60,12 @@
   margin: 10px;
   height: 100vw;
 }
-.check-info{
+
+.check-info {
   padding: 20px 0;
   text-align: left;
 }
+
 .scan-confirmation {
   position: absolute;
   width: 100%;
@@ -75,12 +81,20 @@
 
 <script>
 // @ is an alias to /src
-import Camera from "@/components/Camera.vue";
+//import Camera from "@/components/Camera.vue";
 
 export default {
   name: 'Home',
   components: {
-    Camera,
+    //Camera,
+  },
+
+  data () {
+    return {
+      camera: 'auto',
+      result: null,
+      showScanConfirmation: false
+    }
   },
 
   methods: {
@@ -88,11 +102,44 @@ export default {
       this.$router.push({name: 'Home'})
     },
     goSettings() {
-      this.$router.push({ name: 'Settings' })
+      this.$router.push({name: 'Settings'})
     },
     register() {
-      this.$router.push({ name: 'Settings' })
+      this.$router.push({name: 'Settings'})
     },
+
+    async onInit (promise) {
+      try {
+        await promise
+      } catch (e) {
+        console.error(e)
+      } finally {
+        this.showScanConfirmation = this.camera === "off"
+      }
+    },
+
+    async onDecode(content) {
+      console.log(content);
+
+      this.pause()
+      // await this.timeout(500)
+      // this.unpause()
+    },
+
+    unpause () {
+      this.camera = 'auto'
+    },
+
+    pause () {
+      this.camera = 'off'
+    },
+
+    timeout (ms) {
+      return new Promise(resolve => {
+        window.setTimeout(resolve, ms)
+      })
+    }
+
   }
 }
 </script>
