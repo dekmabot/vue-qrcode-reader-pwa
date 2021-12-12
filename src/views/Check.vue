@@ -154,7 +154,7 @@ export default {
     },
 
     unpause() {
-      this.camera = 'auto';
+      this.camera = 'rear';
       this.dataIsValid = false;
     },
 
@@ -175,6 +175,9 @@ export default {
           break
         case 'rear':
           this.camera = 'front'
+          break
+        default:
+          this.camera = 'rear'
           break
       }
     },
