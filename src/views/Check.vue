@@ -115,7 +115,7 @@ export default {
 
   data() {
     return {
-      camera: 'auto',
+      camera: 'rear',
       result: null,
       showScanConfirmation: false,
       dataIsValid: false,
