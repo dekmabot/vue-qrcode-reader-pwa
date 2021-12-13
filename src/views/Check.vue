@@ -115,7 +115,7 @@ export default {
 
   data() {
     return {
-      camera: 'rear',
+      camera: 'auto',
       result: null,
       showScanConfirmation: false,
       dataIsValid: false,
@@ -154,7 +154,7 @@ export default {
     },
 
     unpause() {
-      this.camera = 'rear';
+      this.camera = 'auto';
       this.dataIsValid = false;
     },
 
