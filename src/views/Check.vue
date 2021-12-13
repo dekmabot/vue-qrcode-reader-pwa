@@ -34,7 +34,7 @@
   <div class="check">
 
     <p>
-      Проскатируйте QR-код на билете
+      Просканируйте QR-код на билете
     </p>
 
     <qrcode-stream :camera="camera" @decode="onDecode" @init="onInit" style="height:80%">
